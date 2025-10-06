@@ -5,7 +5,7 @@
 //
 #let option = (
   type : sys.inputs.at("type", default:"draft"),    // [draft|final]
-  lang : sys.inputs.at("lang", default:"en"),       // [en|fr|de]
+  lang : sys.inputs.at("lang", default:"de"),       // [en|fr|de]
   template    : "thesis",   // [thesis/midterm]
 )
 //-------------------------------------
@@ -36,6 +36,7 @@
     place       : "Sion",
     url         : "https://synd.hevs.io",
     signature   : image("/resources/img/signature.svg", width:3cm),
+    matrikelnummer: "12341234"
   ),
   keywords : ("HEI-Vs", "Systems Engineering", "Infotronics", "Thesis", "Template"),
   version  : "v0.1.0",
@@ -70,8 +71,8 @@
   specialisation: none,
 )
 #if option.lang == "de" {
-  school.name = "Hochschule für Ingenieurwissenschaften Wallis, HES-SO"
-  school.orientation = "Systemtechnik"
+  school.name = "Ostfalia Hochschule für angewandte Wissenschaft"
+  school.orientation = "Informatik"
   school.specialisation = "Infotronics"
 } else if option.lang == "fr" {
   school.name = "Haute École d'Ingénierie du Valais, HES-SO"
@@ -93,14 +94,8 @@
 
 #let logos = (
   main: project-logo,
-  topleft: if option.lang == "fr" or option.lang == "de" {
-    image("/resources/img/logos/hei-defr.svg", width: 6cm)
-  } else {
-    image("/resources/img/logos/hei-en.svg", width: 6cm)
-  },
-  topright: image("/resources/img/logos/hesso-logo.svg", width: 4cm),
-  bottomleft: image("/resources/img/logos/hevs-pictogram.svg", width: 4cm),
-  bottomright: image("/resources/img/logos/swiss_universities-valais-excellence-logo.svg", width: 5cm),
+    topleft: image("/resources/img/logos/ostfalia_logo2.png", width: 6cm),
+    topright: image("/resources/img/logos/B2023CW00134_retina_2400.jpg", width: 4cm),
   )
 )
 

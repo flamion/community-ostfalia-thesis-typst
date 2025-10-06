@@ -93,12 +93,6 @@
       v(1em)
     }
 
-    // DIPLOMA YEAR
-    align(center, [#text(size:huge,
-      [*#i18n("diploma", lang: lang) #date.display("[year]")*]
-    )])
-    v(1em)
-
     // AUTHORs
     align(center, [#text(size:large, [
       #if type(author) == array [
@@ -108,6 +102,8 @@
         )
       ] else [
         #author.name
+        #v(1em)
+        Matrikelnummer: #author.matrikelnummer
       ]
       #v(2em)
     ])])
@@ -347,7 +343,8 @@
     columns: (auto, auto),
     stroke: none,
     align: left + top,
-    table.cell(rowspan: 3)[#if author.email != none {[#author_l:]}], [#author.name],
+    table.cell(rowspan: 4)[#if author.email != none {[#author_l:]}], [#author.name],
+    [#author.matrikelnummer],
     if lang == "fr" {
       [#if author.degree != none {student_l} #author.degree]
     } else {
