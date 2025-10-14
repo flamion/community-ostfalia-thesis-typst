@@ -103,7 +103,7 @@
       ] else [
         #author.name
         #v(1em)
-        Matrikelnummer: #author.matrikelnummer
+        #i18n("matriculation-number", lang: lang): #author.matrikelnummer
       ]
       #v(2em)
     ])])
