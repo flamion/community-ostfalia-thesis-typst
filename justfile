@@ -11,7 +11,7 @@ open := if os() == "linux" {
 
 project_dir   := justfile_directory()
 project_name  := file_stem(justfile_directory())
-project_tag   := "0.2.1"
+project_tag   := "0.2.3"
 
 typst_version := "typst -V"
 typst_github  := "https://github.com/typst/typst --tag v0.13.1"
@@ -21,8 +21,24 @@ doc_name      := "thesis"
 type          := "draft"
 lang          := "en"
 
-local_dir      := "~/Library/Application\\ Support/typst/packages/local"
-preview_dir    := "~/Library/Application\\ Support/typst/packages/preview"
+local_dir := if os() == "macos" {
+  "~/Library/Application\\ Support/typst/packages/local"
+} else {
+  "~/.local/share/typst/packages/local"
+}
+
+preview_dir := if os() == "macos" {
+  "~/Library/Caches/typst/packages/preview"
+} else {
+  "~/.cache/typst/packages/preview/"
+}
+
+release_dir := if os() == "macos" {
+"~/Library/Application\\ Support/typst/packages/preview"
+} else {
+"~/.local/share/typst/packages/preview"
+}
+
 
 ##################################################
 # COMMANDS
@@ -54,28 +70,46 @@ preview_dir    := "~/Library/Application\\ Support/typst/packages/preview"
   brew install typst
 
 # install the template locally as local package
+[linux]
 [macos]
 @copy-local:
   echo "Install template locally as local"
+  echo "  {{local_dir}}/{{project_name}}/{{project_tag}}"
   mkdir -p {{local_dir}}/{{project_name}}/{{project_tag}}
   cp -r ./* {{local_dir}}/{{project_name}}/{{project_tag}}
 
 # install the template locally as preview package
+[linux]
 [macos]
 @copy-preview:
   echo "Install template locally as preview"
+  echo "  {{preview_dir}}/{{project_name}}/{{project_tag}}"
   mkdir -p {{preview_dir}}/{{project_name}}/{{project_tag}}
   cp -r ./* {{preview_dir}}/{{project_name}}/{{project_tag}}
-  rm {{preview_dir}}/{{project_name}}/{{project_tag}}/guide-to-thesis.pdf
-  rm {{preview_dir}}/{{project_name}}/{{project_tag}}/guide-to-typst.pdf
-  rm {{preview_dir}}/{{project_name}}/{{project_tag}}/sample.png
-  rm {{preview_dir}}/{{project_name}}/{{project_tag}}/sample.svg
-  rm {{preview_dir}}/{{project_name}}/{{project_tag}}/justfile
-  rm {{preview_dir}}/{{project_name}}/{{project_tag}}/template/*.pdf
+  rm -f {{preview_dir}}/{{project_name}}/{{project_tag}}/guide-to-thesis.pdf
+  rm -f {{preview_dir}}/{{project_name}}/{{project_tag}}/guide-to-typst.pdf
+  rm -f {{preview_dir}}/{{project_name}}/{{project_tag}}/sample.png
+  rm -f {{preview_dir}}/{{project_name}}/{{project_tag}}/sample.svg
+  rm -f {{preview_dir}}/{{project_name}}/{{project_tag}}/justfile
+  rm -f {{preview_dir}}/{{project_name}}/{{project_tag}}/template/*.pdf
 
+# install the template as release package
+[linux]
+[macos]
+@copy-release:
+  echo "Install template as release package"
+  echo "  {{release_dir}}/{{project_name}}/{{project_tag}}"
+  mkdir -p {{release_dir}}/{{project_name}}/{{project_tag}}
+  cp -r ./* {{release_dir}}/{{project_name}}/{{project_tag}}
+  rm -f {{release_dir}}/{{project_name}}/{{project_tag}}/guide-to-thesis.pdf
+  rm -f {{release_dir}}/{{project_name}}/{{project_tag}}/guide-to-typst.pdf
+  rm -f {{release_dir}}/{{project_name}}/{{project_tag}}/sample.png
+  rm -f {{release_dir}}/{{project_name}}/{{project_tag}}/sample.svg
+  rm -f {{release_dir}}/{{project_name}}/{{project_tag}}/justfile
+  rm -f {{release_dir}}/{{project_name}}/{{project_tag}}/template/*.pdf
 
 # generate changelog and tag for the current release
-@changelog-unrelease:
+@changelog-unreleased:
   git-cliff --unreleased --tag  {{project_tag}} -o CHANGELOG.md
 
 # generate changelog for latest version bump only. Append to current file
