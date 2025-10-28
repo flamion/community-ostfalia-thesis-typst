@@ -78,8 +78,8 @@
   school.specialisation = "Informatik"
 } else if option.lang == "en" {
   school.name = "Ostfalia University of Applied Sciences"
-  school.orientation = "Informatik"
-  school.specialisation = "Informatik"
+  school.orientation = "Informatics"
+  school.specialisation = "Informatics"
 } else {
   school.name = "Ostfalia University of Applied Sciences"
   school.orientation = "Informatics"
